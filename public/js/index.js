@@ -14,4 +14,26 @@ socket.on('disconnect', function(){
 
 socket.on('newMessage', function (message) {
   console.log('You have a new message', message)
+  let li = document.createElement('li')
+  let messageList = document.querySelector('#messages')
+  li.textContent = `${message.from}: ${message.text}`
+
+  messageList.appendChild(li)
+
+})
+
+
+let messageForm = document.getElementById('message-form')
+
+messageForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+
+  let input = document.querySelector('[name=message]')
+  socket.emit('createMessage', {
+    from: 'User',
+    text: input.value
+  }, function() {
+
+  })
+
 })
