@@ -31,7 +31,7 @@ io.on('connection', (socket) => {
     console.log('User was disconnected');
     });
   });
-};
+});
 
 
 
