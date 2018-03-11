@@ -7,8 +7,12 @@ let generateMessage = (from, text) => {
 };
 
 
-let message = generateMessage('Ben', 'Hey')
+let generateLocationMessage = (from, lat, lon ) => {
+  return {
+    from,
+    url: `https://www.google.com/maps?q=${lat},${lon}`,
+    createdAt: new Date().getTime()
+  }
+}
 
-console.log(message);
-
-module.exports = {generateMessage}
+module.exports = {generateMessage, generateLocationMessage}
