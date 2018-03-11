@@ -15,23 +15,25 @@ socket.on('disconnect', function(){
 
 
 socket.on('newMessage', function (message) {
+  let formattedTime = moment(message.createdAt).format('h:mm a')
   console.log('You have a new message', message)
   let li = document.createElement('li')
 
-  li.textContent = `${message.from}: ${message.text}`
+  li.textContent = `${message.from} ${formattedTime}: ${message.text}`
 
   messageList.appendChild(li)
 
 })
 
 socket.on('newLocationMessage', function (message) {
+  let formattedTime = moment(message.createdAt).format('h:mm a')
   let li = document.createElement('li')
   let a = document.createElement('a')
 
   a.setAttribute('href', message.url)
   a.setAttribute('target', '_blank')
   a.textContent = `My current location`
-  li.textContent = `${message.from}: `
+  li.textContent = `${message.from} ${formattedTime}:  `
   li.appendChild(a)
 
   messageList.appendChild(li)
