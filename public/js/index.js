@@ -3,6 +3,7 @@ let socket = io();
 let messageForm = document.getElementById('message-form')
 let locationButton = document.querySelector('#sendLocation')
 let messageList = document.querySelector('#messages')
+let input = document.querySelector('[name=message]')
 
 socket.on('connect', function (){
   console.log('connected to server');
@@ -37,19 +38,13 @@ socket.on('newLocationMessage', function (message) {
 })
 
 
-
-
-
-
 messageForm.addEventListener('submit', (e) => {
   e.preventDefault();
-
-  let input = document.querySelector('[name=message]')
   socket.emit('createMessage', {
     from: 'User',
     text: input.value
   }, function() {
-
+    input.value =''
   })
 
 })
@@ -62,13 +57,20 @@ locationButton.addEventListener('click', (e) => {
   if(!navigator.geolocation){
     return alert('Geolocation not supported by your browser.')
   }
+
+  locationButton.setAttribute('disabled', 'disabled')
+  locationButton.textContent = 'Sending Location....'
+
   navigator.geolocation.getCurrentPosition(function(position){
+    locationButton.textContent = 'Send Location'
+    locationButton.removeAttribute('disabled');
     socket.emit('createLocationMessage', {
       latitude: position.coords.latitude,
       longitude: position.coords.longitude
     });
 
   }, function(){
+    locationButton.removeAttribute('disabled');
     alert('Unable to fetch location')
   })
 })
