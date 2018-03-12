@@ -5,6 +5,26 @@ let locationButton = document.querySelector('#sendLocation')
 let messageList = document.querySelector('#messages')
 let input = document.querySelector('[name=message]')
 
+
+
+function scrollToBottom(){
+  // Selectors
+  let clientHeight = messageList.clientHeight
+  let scrollTop = messageList.scrollTop
+  let scrollHeight = messageList.scrollHeight
+  let newMessage = messageList.lastElementChild
+  let newMessageHeight = newMessage.offsetHeight
+
+  if(newMessage.previousElementSibling){
+    let lastMessageHeight = newMessage.previousElementSibling.offsetHeight
+      if(clientHeight + scrollTop + newMessageHeight + lastMessageHeight >= scrollHeight) {
+        messageList.scrollTop = scrollHeight
+      }
+  }
+
+
+}
+
 socket.on('connect', function (){
   console.log('connected to server');
 });
@@ -27,6 +47,7 @@ socket.on('newMessage', function (message) {
     createdAt: formattedTime
   });
   messageList.insertAdjacentHTML('beforeend', html);
+  scrollToBottom();
 
 })
 
@@ -40,6 +61,7 @@ socket.on('newLocationMessage', function (message) {
   })
 
   messageList.insertAdjacentHTML('beforeend', html)
+  scrollToBottom();
 })
 
 
