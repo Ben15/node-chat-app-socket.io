@@ -15,28 +15,31 @@ socket.on('disconnect', function(){
 
 
 socket.on('newMessage', function (message) {
+  // let template = jQuery('#message-template').html()
+  // let html = Mustache.render(template);
+  // jQuery('#messages').append(html);
+
   let formattedTime = moment(message.createdAt).format('h:mm a')
-  console.log('You have a new message', message)
-  let li = document.createElement('li')
-
-  li.textContent = `${message.from} ${formattedTime}: ${message.text}`
-
-  messageList.appendChild(li)
+  let template = document.querySelector('#message-template').innerHTML
+  let html = Mustache.render(template, {
+    text: message.text,
+    from: message.from,
+    createdAt: formattedTime
+  });
+  messageList.insertAdjacentHTML('beforeend', html);
 
 })
 
 socket.on('newLocationMessage', function (message) {
   let formattedTime = moment(message.createdAt).format('h:mm a')
-  let li = document.createElement('li')
-  let a = document.createElement('a')
+  let template = document.querySelector('#location-message-template').innerHTML
+  let html = Mustache.render(template, {
+    from: message.from,
+    url: message.url,
+    createdAt: formattedTime
+  })
 
-  a.setAttribute('href', message.url)
-  a.setAttribute('target', '_blank')
-  a.textContent = `My current location`
-  li.textContent = `${message.from} ${formattedTime}:  `
-  li.appendChild(a)
-
-  messageList.appendChild(li)
+  messageList.insertAdjacentHTML('beforeend', html)
 })
 
 
