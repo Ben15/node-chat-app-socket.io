@@ -10,10 +10,6 @@ describe('generateMessage', () => {
     expect(message.text).toBe('Hey there')
     expect(typeof message.createdAt).toBe('number')
 
-
-
-
-
   })
 })
 
