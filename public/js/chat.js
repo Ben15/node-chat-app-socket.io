@@ -86,8 +86,8 @@ socket.on('newLocationMessage', function (message) {
 
 messageForm.addEventListener('submit', (e) => {
   e.preventDefault();
+
   socket.emit('createMessage', {
-    from: 'User',
     text: input.value
   }, function() {
     input.value =''
